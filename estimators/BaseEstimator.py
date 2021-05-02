@@ -26,7 +26,7 @@ class BaseEstimator(tf.keras.Sequential):
             batch_size=batch_size,
             epochs=epochs,
             verbose=verbose,
-            callbacks=[tf.keras.callbacks.TerminateOnNaN()],
+            #callbacks=[tf.keras.callbacks.TerminateOnNaN()],
             **kwargs,
         )
 
@@ -84,3 +84,8 @@ class BaseEstimator(tf.keras.Sequential):
 
         y_circ = (y - tf.ones_like(y) * self.y_mean) / self.y_std
         return output.log_prob(y_circ) - tf.reduce_sum(tf.math.log(self.y_std))
+    
+    def nfn_sample(self, x, nr_samples = 100):
+        output = self(x)
+        mod = output.Sample(sample_shape = [nr_samples, 1])
+        return mod.sample()
