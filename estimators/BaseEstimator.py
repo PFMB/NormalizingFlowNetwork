@@ -87,5 +87,6 @@ class BaseEstimator(tf.keras.Sequential):
     
     def nfn_sample(self, x, nr_samples = 100):
         output = self(x)
-        mod = output.Sample(sample_shape = [nr_samples, 1])
-        return mod.sample()
+        return output.sample(sample_shape = [nr_samples, 1])
+        # use model.nfn_sample(x_train) but no inverse of bijector implemented
+
